@@ -34,13 +34,12 @@ async def on_message(message):
                 body = res.read()
                 data = json.loads(body)
 
-                total = len(data['item'])
-                if (total <= 0):
-                    await client.send_message('見つからないよー＞＜')
-                    retirm
-
-                post_no = random.randint(0, total - 1)
-                await client.send_message(message.channel, data['item'][post_no]['image']['url'])
+                if ('item' in data):
+                    total = len(data['item'])
+                    post_no = random.randint(0, total - 1)
+                    await client.send_message(message.channel, data['item'][post_no]['image']['url'])
+                else:
+                    await client.send_message(message.channel, '見つからないよー＞＜')
 
     if message.content.startswith("<:okokokay:"):
         # 送り主がBotだった場合反応したくないので
