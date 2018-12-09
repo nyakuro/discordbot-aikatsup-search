@@ -2,6 +2,7 @@
 .python-version
 
 # Environments
+.env
 .venv
 
 # PhpStorm
