@@ -1,5 +1,10 @@
 import os
 from dotenv import load_dotenv,find_dotenv
+import random
+
+from urllib import request,parse
+import json
+
 import discord
 
 load_dotenv(find_dotenv())
@@ -15,6 +20,28 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    print(message.content)
+    if message.content.startswith("/aup/"):
+        # 送り主がBotだった場合反応したくないので
+        if client.user != message.author:
+            slice = message.content[5:]
+            url = 'http://aikatsup.com/api/v1/search?' + parse.urlencode({"words": slice})
+            # => 'http://www.lifewithpython.com/abc/python.html'
+
+            req = request.Request(url)
+
+            with request.urlopen(req) as res:
+                body = res.read()
+                data = json.loads(body)
+
+                total = len(data['item'])
+                if (total <= 0):
+                    await client.send_message('見つからないよー＞＜')
+                    retirm
+
+                post_no = random.randint(0, total - 1)
+                await client.send_message(message.channel, data['item'][post_no]['image']['url'])
+
     if message.content.startswith("<:okokokay:"):
         # 送り主がBotだった場合反応したくないので
         if client.user != message.author:
