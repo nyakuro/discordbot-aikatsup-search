@@ -1,4 +1,4 @@
-# discord-aikatsu-image
+# discordbot-aikatsup-search
 
 A discord bot search an Aikatsu image and write its url on the text channel.
 
